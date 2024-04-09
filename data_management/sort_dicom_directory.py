@@ -52,7 +52,11 @@ def get_all_dicom_files(dicom_directory):
         not_taken_ext = [
             "bvecs",
             "bvals",
-            "txt"
+            "txt",
+            'PAR', 
+            'REC',
+            'nii',
+            'xml'
         ]
 
         if file_start in not_taken_start or file_ext in not_taken_ext:
