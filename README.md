@@ -37,7 +37,31 @@ Sort DICOM files in a directory using Patient's Name, Study date and Series Desc
 Example: 
 
 ```
-python sort_dicom_directory.py -d /home/username/dicom_directory_to_sort -o  /home/username/dicom_directory_sorted
+python sort_dicom_directory.py -d /home/username/dicom_directory_to_sort -o /home/username/dicom_directory_sorted
+```
+
+### bids_data_with_dcm2bids.py
+Run dcm2bids on several subjects to organised data in BIDS.  
+
+The sourcedata folder should be organised as follow: 
+```
+├──DICOM_sourcedata/
+|   ├──subject1/
+|   |   ├──01/
+|   |   |   ├──DICOM/
+|   |   ├──02/
+|   |   |   ├──DICOM/
+|   ├──subject2/
+|   |   ├──01/
+|   |   |   ├──DICOM/
+|   |   ├──02/
+|   |   |   ├──DICOM/
+```
+
+Example: 
+
+```
+    python bids_data_with_dcm2bids.py -s /DICOM_sourcedata/ -o /output_bids_direcory/ -c cobfig_file_dcm2bids.jsob
 ```
 
 
