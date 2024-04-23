@@ -20,7 +20,7 @@ from bids import BIDSLayout
 
 def compute_bids_slice_timing(tr_sec,
                               numb_slices,
-                              slice_order,
+                              slice_scan_order,
                               multiband_factor=1,
                               delay_between_vol_sec=0,
                               package=1):
@@ -53,27 +53,27 @@ def compute_bids_slice_timing(tr_sec,
     # bids slice timing for ascending acquistion
     slice_timing = [ta * i for i in range(numb_slices)]
     order = list(range(1, numb_slices + 1))
-    if slice_order == 'ascending':
+    if slice_scan_order == 'ascending':
         bids_slice_timing = slice_timing
     # bids slice timing for descending acquistion
-    elif slice_order == 'descending':
+    elif slice_scan_order == 'descending':
         bids_slice_timing = slice_timing[::-1]
         order = order[::-1]
     # bids slice timing for default acquistion
-    elif slice_order == 'default':
+    elif slice_scan_order == 'default':
         order_odd = list(range(1, numb_slices + 1, 2))
         order_even = list(range(2, numb_slices + 1, 2))
         order = order_odd + order_even
         bids_slice_timing =  [x for _,x in sorted(zip(order, slice_timing))]
     # bids slice timing for interleaved acquistion
-    elif slice_order == 'interleaved':
+    elif slice_scan_order == 'interleaved':
         increment = round(math.sqrt(numb_slices))
         order = []
         for i in list(range(1, increment + 1)):
             order += list(range(i, numb_slices + 1, increment))
         bids_slice_timing = [x for _,x in sorted(zip(order, slice_timing))]
     else:
-        print(f'Slice order {slice_order} not implemented yet')
+        print(f'Slice order {slice_scan_order} not implemented yet')
         return
 
     return order, bids_slice_timing
@@ -86,11 +86,17 @@ def update_json(json_path, new_data):
         new_data (dict): data to add to the json
 
     '''
-    with open(json_path, 'r+', encoding='utf-8') as json_file:
+    with open(json_path, 'r', encoding='utf-8') as json_file:
         file_data = json.load(json_file)
-        file_data.update(new_data)
-
+    # Check if data already in json
+    for k in list(new_data.keys()):
+        if k in list(file_data.keys()):
+            print(f"\nKey already in json file for {json_path}")
+            return 0
+    file_data.update(new_data)
+    with open(json_path, 'w', encoding='utf-8') as json_file:
         json.dump(file_data, json_file, indent=4)
+    return 1
 
 
 if __name__ == '__main__':
@@ -131,9 +137,9 @@ if __name__ == '__main__':
     )
 
     args = parser.parse_args()
-    slice_order = args.order.lower()
+    slice_scan_order = args.order.lower()
 
-    if slice_order not in ['ascending',
+    if slice_scan_order not in ['ascending',
                            'descending',
                            'default',
                            'interleaved']:
@@ -144,9 +150,9 @@ if __name__ == '__main__':
         slice_order, bids_slice_timing = compute_bids_slice_timing(
             float(args.tr),
             int(args.slices),
-            slice_order=slice_order,
+            slice_scan_order=slice_scan_order,
             multiband_factor=int(args.multiband),
-            delay_between_vol_sec=int(args.delay_between_vol_sec),
+            delay_between_vol_sec=float(args.delay_between_vol_sec),
             package=int(args.package)
         )
 
@@ -155,7 +161,9 @@ if __name__ == '__main__':
         for i in list(range(len(slice_order))):
             print(f'Slice : {i + 1} / Timing: {bids_slice_timing[i]}')
 
-        slice_timing_data = {'SliceTiming': bids_slice_timing}
+        slice_timing_data = {
+            'SliceTiming': bids_slice_timing
+        }
 
         # Add SliceTiming to BIDS json
         bids_directory_path = args.bids_path
@@ -183,8 +191,11 @@ if __name__ == '__main__':
                         layout.get(subject=sub, session=sess, task=task,
                                 extension='json')[0].filename
                     )
-                    update_json(json_file, slice_timing_data)
-                    done.append(sub + '_' + sess)
+                    update = update_json(json_file, slice_timing_data)
+                    if update == 1:
+                        done.append(sub + '_' + sess)
+                    else:
+                        not_done.append(sub + '_' + sess)
                 else:
                     not_done.append(sub + '_' + sess)
         print(f'\nMetadata added for : {done}')
