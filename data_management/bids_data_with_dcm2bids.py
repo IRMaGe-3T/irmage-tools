@@ -19,18 +19,18 @@ if __name__ == '__main__':
         '-c', '--config_file', required=True, help='dcm2bids config file'
     )
     args = parser.parse_args()
-    directory = args.directory
+    directory = args.sourcedata
     output_directory = args.output
 
     config_file = args.config_file
-    all_dicom_folders = glob.glob(os.path.join(args.sourcedata), '*')
+    all_dicom_folders = glob.glob(os.path.join(directory, '*'))
 
 
     for folder in all_dicom_folders:
         print(f"\n {folder}")
         if os.path.isdir(folder):
-            id_sub = folder.split('/')[-1].split('-')[-2]
-            session = folder.split('/')[-1].split('-')[-1]
+            id_sub = folder.split('/')[-1].split('_')[-2]
+            session = folder.split('/')[-1].split('_')[-1]
 
             print('\nSubject ', id_sub)
             print('Session ', session)
