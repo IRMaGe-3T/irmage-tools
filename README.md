@@ -73,3 +73,15 @@ Example:
     python edit_dicom_tag.py -d /input_DICOM_directory/ -o /output_DICOM_direcory/ -t ImagesInAcquisition -v 1752
 ```
 
+
+### mri_json_to_xls.py
+Obtain an excel file with all the value of the MRI json. 
+The input folder could be a BIDS folder (--bids) or a folder with NIfTI/json (--path). 
+
+It is possible to specify the output directory (--ouput_directory) and the output file name (--filename)
+
+Example:
+```
+    mri_json_to_xlsx.py -b path/to/bids/folder -f study.xlsx
+```
+
