@@ -4,16 +4,23 @@ Project to share useful codes and snippets or jupyter notebooks for neuroimaging
 Please note that thoses codes are proposed as example and should be modified according to need.
 
 
-Table of contents
+## Table of contents
+1. [data_management](#data_management)
+    - [philips_compute_slice_timing.py](#philips_compute_slice_timing.py)
+    - [philips_compute_slice_timing_dataset_bids.py](#philips_compute_slice_timing_dataset_bids.py)
+    - [sort_dicom_directory.py](#sort_dicom_directory.py)
+    - [bids_data_with_dcm2bids.py](#bids_data_with_dcm2bids.py)
+    - [edit_dicom_tag.py](#edit_dicom_tag.py)
+    - [mri_json_to_xls.py](#mri_json_to_xls.py)
+2. [physiological_data](#physiological_data)
+    - [HRV_philips_scanphyslog](#HRV_philips_scanphyslog)
 
-[data_management ](#data_management)
 
-<a name="data_management"></a>
 ## data_management 
 
 Useful codes for data managment (read DICOM, sort DICOM, get info...)
 
-### philips_compute_slice_timing.py 
+### philips_compute_slice_timing.py <a name="philips_compute_slice_timing.py"></a>
 Compute SliceTiming metadata for json BIDS (Philips system)
 
 Example: 
@@ -74,14 +81,30 @@ Example:
 ```
 
 
-### mri_json_to_xls.py
+### mri_json_to_xls.py {#mri_json_to_xls.py}
 Obtain an excel file with all the value of the MRI json. 
 The input folder could be a BIDS folder (--bids) or a folder with NIfTI/json (--path). 
 
-It is possible to specify the output directory (--ouput_directory) and the output file name (--filename)
+It is possible to specify the output directory (--ouput_directory) and the output file name (--SCANPHYSLOGxxx)
 
 Example:
 ```
     mri_json_to_xlsx.py -b path/to/bids/folder -f study.xlsx
 ```
+
+## Physiological_data
+
+### HRV_philips_scanphyslog
+
+#### ppu4fmri.m
+Read SCANPHYSLOG file (from Philips system) containing PPU data (PPU signal reflects the heart rate at fingertips), computing the tachogram (HRV) and extracting and resampling the LF-HRV to be used as regressors in fMRI (task or rs) analysis.
+
+You need spm in your Matlab path to run this program.
+
+Launch the program in matlab, select the SCANPHYSLOG file (SCANPHYSLOGxxx.log) and enter acquisition parameters. 4 files are obtained:
+- SCANPHYSLOGxxx_QC.png: plots for peaks of PPU , tachogram, LF and HR component
+- SCANPHYSLOGxxx_frequency_spectrum.png: frequency spectrum
+- SCANPHYSLOGxxx_results.tsv: tachogram analysis results (heart rate, RMSSD, SDNN, total power ..)
+- SCANPHYSLOGxxx_reg_LF_HRV.tsv: LF-regressors for fMRI 
+
 
