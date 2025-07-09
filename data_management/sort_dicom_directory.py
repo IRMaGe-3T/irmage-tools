@@ -119,7 +119,11 @@ if __name__ == '__main__':
         series_description = find_dicom_tag_value(
             dataset, Tag(0x08, 0x103e)
         )
-        sequence = patient_name + '_' + study_date + '_' + series_description
+        serie_num = str(find_dicom_tag_value(
+            dataset, Tag(0x20, 0x0011)
+        ))
+
+        sequence = patient_name + '_' + study_date + '_' + serie_num + '_' + series_description
 
         if sequence not in sequences:
             sequences.append(sequence)
@@ -127,7 +131,13 @@ if __name__ == '__main__':
         if not os.path.exists(new_path):
             os.makedirs(new_path)
         # Copy dicom into sequence folder
-        shutil.copy2(dicom_file, new_path)
+        new_dicom_path = os.path.join(new_path, dicom_file.split('/')[-1])
+        i = 1
+        while os.path.exists(new_dicom_path):
+            new_dicom_path = os.path.join(new_path, dicom_file.split('/')[-1] + '_' + str(i))
+            i += 1
+
+        shutil.copy2(dicom_file, new_dicom_path)
 
     print(f'\nList of the sequneces detected: {sequences}')
     print(f'\nDICOM files copied to {output_directory}')
