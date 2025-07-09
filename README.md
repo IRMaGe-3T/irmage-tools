@@ -107,4 +107,6 @@ Launch the program in matlab, select the SCANPHYSLOG file (SCANPHYSLOGxxx.log) a
 - SCANPHYSLOGxxx_results.tsv: tachogram analysis results (heart rate, RMSSD, SDNN, total power ..)
 - SCANPHYSLOGxxx_reg_LF_HRV.tsv: LF-regressors for fMRI 
 
+Examples of SCANPHYSLOG files can be found [here](physiological_data/HRV_philips_scanphyslog/examples)
+
 
