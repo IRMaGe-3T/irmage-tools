@@ -29,7 +29,7 @@ Example:
 python philips_compute_slice_timing.py -tr 2.5 -slices 42 -order ascending
 ```
 
-### philips_compute_slice_timing_dataset_bids.py
+### philips_compute_slice_timing_dataset_bids.py <a name="philips_compute_slice_timing_dataset_bids.py"></a>
 Compute SliceTiming metadata for json BIDS (Philips system) and add information to a BIDS dataset.
 
 Example: add SliceTiming for all the resting state (task rest) functional MRI data of the BIDS datatset study: 
@@ -38,7 +38,7 @@ Example: add SliceTiming for all the resting state (task rest) functional MRI da
 python philips_compute_slice_timing_dataset_bids.py -bids_path '/home/username/study' -task rest -tr 2.5 -slices 42 -order ascending
 ```
 
-### sort_dicom_directory.py
+### sort_dicom_directory.py <a name="sort_dicom_directory.py"></a>
 Sort DICOM files in a directory using Patient's Name, Study date and Series Description tag
 
 Example: 
@@ -47,7 +47,7 @@ Example:
 python sort_dicom_directory.py -d /home/username/dicom_directory_to_sort -o /home/username/dicom_directory_sorted
 ```
 
-### bids_data_with_dcm2bids.py
+### bids_data_with_dcm2bids.py <a name="bids_data_with_dcm2bids.py"></a>
 Run dcm2bids on several subjects to organised data in BIDS.  
 
 The sourcedata folder should be organised as follow (where "subject1" / "subject2" are the desired name in the BIDS architecture and "V1" / "V2" are the sessions names): 
@@ -69,7 +69,7 @@ Example:
     python bids_data_with_dcm2bids.py -s /DICOM_sourcedata/ -o /output_bids_direcory/ -c config_file_dcm2bids.jsob
 ```
 
-### edit_dicom_tag.py
+### edit_dicom_tag.py <a name="edit_dicom_tag.py"></a>
 Edit a specific DICOM tag (change the value). 
 All the DICOM of the directory will be copied in the output directory and the tag value will be edit in the DICOM of the output directory.
 
@@ -81,7 +81,7 @@ Example:
 ```
 
 
-### mri_json_to_xls.py {#mri_json_to_xls.py}
+### mri_json_to_xls.py <a name="mri_json_to_xls.py"></a>
 Obtain an excel file with all the value of the MRI json. 
 The input folder could be a BIDS folder (--bids) or a folder with NIfTI/json (--path). 
 
@@ -94,7 +94,7 @@ Example:
 
 ## Physiological_data
 
-### HRV_philips_scanphyslog
+### HRV_philips_scanphyslog <a name="HRV_philips_scanphyslog.py"></a>
 
 #### ppu4fmri.m
 Read SCANPHYSLOG file (from Philips system) containing PPU data (PPU signal reflects the heart rate at fingertips), computing the tachogram (HRV) and extracting and resampling the LF-HRV to be used as regressors in fMRI (task or rs) analysis.
