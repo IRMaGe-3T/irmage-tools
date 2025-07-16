@@ -9,7 +9,7 @@ function ppu4fMRI
 %           - acquisition parameters
 %
 %OUTPUT :   - HR and HRV parameters
-%           - LF-HRV and HF-HRV regressors for fMRI
+%           - LF-HRV regressors for fMRI
 %
 %HISTORY :
 %			Written by C.Delon-Martin, the 16-01-2024.Modified by E. Gourieux 07-2025 
