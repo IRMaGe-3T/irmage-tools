@@ -131,7 +131,7 @@ hold on; scatter(tbegin,0,sz,'xr'); scatter(tend,0,sz,'xr');
 %% PPU ANALYSIS
 ppu     = data(:,5);
 % extract peak
-[ppus, peak_val,peak_ind] = extract_peaks(ppu);
+[ppus, peak_val,peak_ind] = extract_peaks(ppu, fsamp);
 
 % plot ppu and peaks
 appu    = subplot(5,1,2);  
@@ -304,12 +304,14 @@ end
 %%%%%%%%%%%%%%%
 % SUB-FUNCTIONS 
 %%%%%%%%%%%%%%%
-function [ppus,peakval,peakind] = extract_peaks(ppu)
+function [ppus,peakval,peakind] = extract_peaks(ppu, fsamp)
 
 b       = [0 0.2 0.4 0.6 0.8 1 0.8 0.6 0.4 0.2 0]; %small smoothing kernel
-pct     = 10; % percentage of max amplitude seems OK for peak finding (can be adjusted)
-minpeakdist = 250; % min peak distance between maxima seems ok
-minpeakwidth = 50; % mean peak width 
+pct     = 10; % percentage of max amplitude for peak finding (can be adjusted)
+meanpeakdist_time = 0.5 % mean peak distance (unit time s)
+minpeakwidth_time = 0.1 % mean peak width (unit time s)
+minpeakdist = meanpeakdist_time * fsamp; % min peak distance between maxima (nb pts)
+minpeakwidth = minpeakwidth_time * fsamp; % mean peak width (nb pts)
 
 ppus    = conv(ppu,b,'same')/sum(b); % small smoothing to avoid multiple peaks. No shift in peaks
 
