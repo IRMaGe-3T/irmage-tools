@@ -89,8 +89,20 @@ It is possible to specify the output directory (--ouput_directory) and the outpu
 
 Example:
 ```
-    mri_json_to_xlsx.py -b path/to/bids/folder -f study.xlsx
+    python mri_json_to_xlsx.py -b path/to/bids/folder -f study.xlsx
 ```
+
+### bids_update_json.py 
+Add, remove or update a json key in all json from a BIDS folder
+It is possible to specify modality, acq, datatype and dir keys from BIDS name. 
+
+
+Example:
+```
+    python bids_update_json.py -b path/to/bids/folder -d dwi -m dwi -a b1000 --add "PhaseEncodingDirection"="j-"
+
+```
+
 
 ## Physiological_data
 
@@ -108,5 +120,9 @@ Launch the program in matlab, select the SCANPHYSLOG file (SCANPHYSLOGxxx.log) a
 - SCANPHYSLOGxxx_reg_LF_HRV.tsv: LF-regressors for fMRI 
 
 Examples of SCANPHYSLOG files can be found [here](physiological_data/HRV_philips_scanphyslog/examples)
+
+### ppu4fmri.py
+
+Same code as ppo4fmri.m but in python (faster)
 
 
