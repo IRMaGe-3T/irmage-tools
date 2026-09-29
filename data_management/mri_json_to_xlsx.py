@@ -17,7 +17,8 @@ def get_value_json(json_path, field_name):
     field_name (string): field name (example: "Manufacturer")
     """
     try:
-        field = json_path[field_name]
+        data = json.load(json_path)
+        field = data[field_name]
     except Exception:
         field = "na"
     return field
@@ -51,10 +52,9 @@ def get_values(files_path, labels):
     for path in files_path:
         temp = [os.path.basename(path)]
         with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
             for label in labels:
                 if label != "File":
-                    temp.append(get_value_json(data, label))
+                    temp.append(get_value_json(f, label))
         dataframe.loc[len(dataframe)] = temp
     return dataframe
 
@@ -89,6 +89,9 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
+    if not args.path and not args.bids:
+        parser.error("--path or --bids should be used")
+
     if args.path and args.bids:
         parser.error("--path and --bids are exclusive")
 
@@ -117,3 +120,5 @@ if __name__ == "__main__":
     labels_columns = get_all_labels(files)
     df = get_values(files, labels_columns)
     df.to_excel(os.path.join(output_path, filename))
+
+    print(f"Done: {os.path.join(output_path, filename)}")

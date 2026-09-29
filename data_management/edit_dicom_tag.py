@@ -49,7 +49,7 @@ if __name__ == '__main__':
         if not os.path.exists(output_directory):
             os.makedirs(output_directory)
         new_dicom = os.path.join(output_directory, os.path.basename(dicom_file))
-        ds =  pydicom.read_file(dicom_file)
+        ds =  pydicom.dcmread(dicom_file)
         ds[Tag(tag)].value = new_value
         ds.save_as(new_dicom)
 
